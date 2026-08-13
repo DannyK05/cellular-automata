@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
 
 const BASE_MATRIX = [
-  [0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 1, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0],
+  [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+  [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 ];
 function App() {
   const [playing, setPlaying] = useState(false);
@@ -25,28 +27,79 @@ function App() {
     }
 
     for (let i = 0; i < prevMatrix.length; i++) {
-      const matrixRow = prevMatrix[i];
+      const prevMatrixRow = prevMatrix[i];
       const newMatrixRow = newMatrix[i];
-      for (let j = 0; j < matrixRow.length; j++) {
-        if (matrixRow[j] == 1) {
-          // create cell up
-          if (i - 1 >= 0) {
-            newMatrix[i - 1][j] = 1;
-          }
+      for (let j = 0; j < prevMatrixRow.length; j++) {
+        let count = 0;
 
-          //create cell down
-          if (i + 1 < prevMatrix.length) {
-            newMatrix[i + 1][j] = 1;
-          }
+        // check neighbours
 
-          //create cell left
-          if (j - 1 >= 0) {
-            newMatrixRow[j - 1] = 1;
+        //up
+        if (i - 1 >= 0) {
+          if (prevMatrix[i - 1][j] == 1) {
+            count += 1;
           }
+        }
 
-          // create cell right
-          if (j + 1 < matrixRow.length) {
-            newMatrixRow[j + 1] = 1;
+        // down
+        if (i + 1 < prevMatrix.length) {
+          if (prevMatrix[i + 1][j] == 1) {
+            count += 1;
+          }
+        }
+
+        //left
+        if (j - 1 >= 0) {
+          if (prevMatrixRow[j - 1] == 1) {
+            count += 1;
+          }
+        }
+
+        // right
+        if (j + 1 < prevMatrixRow.length) {
+          if (prevMatrixRow[j + 1] === 1) {
+            count += 1;
+          }
+        }
+
+        // up left
+        if (j - 1 >= 0 && i - 1 >= 0) {
+          if (prevMatrix[i - 1][j - 1] === 1) {
+            count += 1;
+          }
+        }
+
+        // up right
+        if (j + 1 < prevMatrixRow.length && i - 1 >= 0) {
+          if (prevMatrix[i - 1][j + 1] === 1) {
+            count += 1;
+          }
+        }
+
+        // down left
+        if (i + 1 < prevMatrix.length && j - 1 >= 0) {
+          if (prevMatrix[i + 1][j - 1] === 1) {
+            count += 1;
+          }
+        }
+
+        // down right
+        if (i + 1 < prevMatrix.length && j + 1 < prevMatrixRow.length) {
+          if (prevMatrix[i + 1][j + 1] === 1) {
+            count += 1;
+          }
+        }
+
+        // kill or resurrect cells
+        if (prevMatrixRow[j] === 1) {
+          if (count < 2 || count > 3) {
+            newMatrixRow[j] = 0;
+          } else {
+            newMatrixRow[j] = 1;
+          }
+        } else {
+          if (count === 3) {
+            newMatrixRow[j] = 1;
           }
         }
       }
