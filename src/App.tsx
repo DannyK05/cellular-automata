@@ -1,30 +1,32 @@
 import { useEffect, useState } from "react";
+import { generateZeroMatrix } from "./helper";
 
-const BASE_MATRIX = [
-  [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-  [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-];
+// const BASE_MATRIX = [
+//   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//   [0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+//   [1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1],
+//   [0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0],
+//   [0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1],
+// ];
 function App() {
+  const BASE_MATRIX = generateZeroMatrix(16, 16);
   const [playing, setPlaying] = useState(false);
   const [speed, setSpeed] = useState(300);
 
   const [matrix, setMatrix] = useState(BASE_MATRIX);
 
   const automate = (prevMatrix: number[][]) => {
-    const newMatrix = [];
     //generate new matrix default zeros from matrix dimensions
-    for (let i = 0; i < prevMatrix.length; i++) {
-      newMatrix.push(Array(prevMatrix[0].length).fill(0));
-    }
+    const newMatrix = generateZeroMatrix(
+      prevMatrix[0].length,
+      prevMatrix.length,
+    );
 
     for (let i = 0; i < prevMatrix.length; i++) {
       const prevMatrixRow = prevMatrix[i];
@@ -112,6 +114,22 @@ function App() {
     setMatrix(BASE_MATRIX);
   };
 
+  const toggleCell = (
+    prevMatrix: number[][],
+    columnIndex: number,
+    rowIndex: number,
+  ) => {
+    const initialMatrix = prevMatrix.map((row) => [...row]);
+
+    if (initialMatrix[rowIndex][columnIndex] === 1) {
+      initialMatrix[rowIndex][columnIndex] = 0;
+    } else {
+      initialMatrix[rowIndex][columnIndex] = 1;
+    }
+
+    return initialMatrix;
+  };
+
   useEffect(() => {
     if (!playing) {
       return;
@@ -136,9 +154,14 @@ function App() {
         {matrix.map((row, rowIndex) =>
           row.map((cell, columnIndex) => (
             <span
+              onClick={() =>
+                setMatrix((prev) => toggleCell(prev, columnIndex, rowIndex))
+              }
               key={`${rowIndex}-${columnIndex}`}
               className={
-                cell == 0 ? "bg-red-500 h-6 w-full" : "bg-green-500 h-6 w-full"
+                cell == 0
+                  ? "bg-red-500 h-6 w-full cursor-pointer border"
+                  : "bg-green-500 h-6 w-full cursor-pointer border"
               }
             ></span>
           )),
