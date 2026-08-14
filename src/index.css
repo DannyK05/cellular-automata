@@ -1,5 +1,15 @@
 @import "tailwindcss";
 
+@font-face {
+  font-family: "PressStart";
+  src: url("/assets/fonts/Press_Start_2P/PressStart2P-Regular.ttf");
+}
+
+body {
+  background-image: url("/assets/images/bg.webp");
+  background-size: cover;
+}
+
 #root {
   padding: 16px;
   width: 100%;
@@ -7,4 +17,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.press-start {
+  font-family: "PressStart";
 }
