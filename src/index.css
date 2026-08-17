@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+:root {
+  --emulator-shadow: -8px 8px #402b7c;
+  --button-shadow: 0px 6px #360856;
+  --button-pressed: 0px 2px #360856;
+}
+
 @font-face {
   font-family: "PressStart";
   src: url("/assets/fonts/Press_Start_2P/PressStart2P-Regular.ttf");

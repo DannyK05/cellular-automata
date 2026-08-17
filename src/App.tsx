@@ -168,7 +168,7 @@ function App() {
   }, [speed, playing]);
 
   return (
-    <div className="w-full border py-2 px-4 bg-[#6A46CA] rounded-b-xl lg:w-3/5">
+    <div className="w-full border py-2 px-4 bg-[#6A46CA] shadow-[var(--emulator-shadow)] rounded-b-xl lg:w-3/5">
       <h2 className="text-center press-start text-[#CD8329]">
         Conway Game of Life Simulator
       </h2>
@@ -206,7 +206,7 @@ function App() {
         {controls.map(({ children, effect }) => (
           <button
             onClick={effect}
-            className="text-[#CD8329] bg-purple-800 shadow-lg rounded-lg py-1 px-2 cursor-pointer lg:hover:bg-purple-700 active:bg-purple-600 active:text-white"
+            className="text-[#CD8329] bg-purple-800 shadow-[var(--button-shadow)] rounded-lg py-1 px-2 cursor-pointer lg:hover:bg-purple-700 active:shadow-[var(--button-pressed)] active:text-white"
           >
             {children()}
           </button>
