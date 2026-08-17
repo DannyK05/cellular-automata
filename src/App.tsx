@@ -195,7 +195,7 @@ function App() {
                 playing && cell === 0 && "bg-green-200",
                 cell == 1 && "bg-green-800",
                 borderOn && "border",
-                "h-6 w-full cursor-pointer border-green-900 hover:lg:bg-green-600",
+                "h-6 w-full cursor-pointer border-green-900 active:bg-green-300 active:p-2 hover:lg:bg-green-600 active:lg:bg-green-300 active:lg:p-2",
               )}
             ></span>
           )),
